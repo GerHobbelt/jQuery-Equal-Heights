@@ -6,9 +6,10 @@ a tidy grid
 ## Fork
 
 *	Adapted by Greg Turner to work on elements, not their children, and to take
-	into account borders and padding
-*	Added to by Mark Finger to include `equalHeightsByHClass` which can group
-	elements before applying `equalHeights`
+	into account borders and padding.
+*	Added to by Mark Finger to include `equalHeightsByHClass` which groups
+	elements together by a `h-class` attribute, then equalises the heights of
+	each group of elements.
 
 This fork of the jQuery plugin is something we've used for a few projects at
 [the Interaction Consortium](http://interaction.net.au). It's been used for
