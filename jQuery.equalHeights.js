@@ -1,5 +1,9 @@
-/*-------------------------------------------------------------------- 
- * JQuery Plugin: "EqualHeights" & "EqualWidths"
+// Hacked on @ The IC (http://interaction.net.au)
+//  >> Adapted by Greg Turner to work on elements, not their children, and to take into account borders and padding
+//  >> Added to by Mark Finger to include `equalHeightsByHClass` which can group elements before applying `equalHeights`
+
+/*--------------------------------------------------------------------
+ * JQuery Plugin: "EqualHeights"
  * by:	Scott Jehl, Todd Parker, Maggie Costello Wachs (http://www.filamentgroup.com)
  *
  * Copyright (c) 2007 Filament Group
@@ -10,25 +14,22 @@
  		by default if pxToEm() method is available.
  * Dependencies: jQuery library, pxToEm method	(article: http://www.filamentgroup.com/lab/retaining_scalable_interfaces_with_pixel_to_em_conversion/)							  
  * Usage Example: $(element).equalHeights();
-   						      Optional: to set min-height in px, pass a true argument: $(element).equalHeights(true);
+ * 		Optional: to set min-height in px, pass a true argument: $(element).equalHeights(true);
  * Version: 2.0, 07.24.2008
  * Changelog:
- *  08.02.2007 initial Version 1.0
- *  07.24.2008 v 2.0 - added support for widths
- *
- *	> 2012 @ The IC (http://interaction.net.au)
- *  >> Adapted by Greg Turner to work on elements, not their children, and to take into account borders and padding
- *  >> Added to by Mark Finger to include `equalHeightsByHClass` which can group elements before applying `equalHeights`
+ *  	08.02.2007 initial Version 1.0
+ *  	07.24.2008 v 2.0 - added support for widths
 --------------------------------------------------------------------*/
 
 $.fn.equalHeights = function(px) {
-
 	var current_tallest = 0;
 	var self = $(this);
+
 	//clear heights
 	self.each(function(){
 		var element = $(this);
-		if ($.browser.msie && $.browser.version == 6.0) { element.css({'height': ''}); }
+		if ($.browser.msie && $.browser.version == 6.0)
+			element.css({'height': ''});
 		element.css({'min-height': ''});
 	});
 
@@ -36,8 +37,10 @@ $.fn.equalHeights = function(px) {
 	self.each(function(){
 		var element = $(this);
 		var elh = element.outerHeight(false);
-		if (elh > current_tallest) { current_tallest = elh; }
-    if (!px && Number.prototype.pxToEm) current_tallest = current_tallest.pxToEm(); //use ems unless px is specified
+		if (elh > current_tallest)
+			current_tallest = elh;
+		if (!px && Number.prototype.pxToEm)
+			current_tallest = current_tallest.pxToEm(); //use ems unless px is specified
 		// for ie6, set height since min-height isn't supported
 	});
 
@@ -45,7 +48,8 @@ $.fn.equalHeights = function(px) {
 	self.each(function(){
 		var element = $(this);
 		var padding_and_border = element.outerHeight() - element.height();
-		if ($.browser.msie && $.browser.version == 6.0) { element.css({'height': current_tallest - padding_and_border}); }
+		if ($.browser.msie && $.browser.version == 6.0)
+			element.css({'height': current_tallest - padding_and_border});
 		element.css({'min-height': current_tallest - padding_and_border});
 	});
 
@@ -53,20 +57,20 @@ $.fn.equalHeights = function(px) {
 };
 
 $.fn.equalHeightsByHClass = function(px) {
-	// Groups elements together by the value of their `h-class` attribute,
-	// then performs equalHeights on them. Any elements without the
+	// Group elements together by the value of their `h-class` attribute,
+	// then perform equalHeights on them. Any elements without the
 	// attribute are grouped together
 	var height_classes = {};
 	$(this).each(function() {
 		var element = $(this),
 			class_name = element.attr('h-class');
+		// Instantiate, or push to, an array of elements
 		if (height_classes[class_name] == undefined)
 			height_classes[class_name] = [element];
 		else
 			height_classes[class_name].push(element);
 	});
-	for (var key in height_classes) {
-		$(height_classes[key]).equalHeights();
-	}
+	for (var class_name in height_classes)
+		$(height_classes[class_name]).equalHeights(px);
 	return this;
 }
