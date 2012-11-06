@@ -38,7 +38,7 @@ $.fn.equalWidths = function(px) {
 		$(this).children().each(function(i){
 				if($(this).width() > currentWidest) { currentWidest = $(this).width(); }
 		});
-		if(!px || !Number.prototype.pxToEm) currentWidest = currentWidest.pxToEm(); //use ems unless px is specified
+		if(!px && Number.prototype.pxToEm) currentWidest = currentWidest.pxToEm(); //use ems unless px is specified
 		// for ie6, set width since min-width isn't supported
 		if ($.browser.msie && $.browser.version == 6.0) { $(this).children().css({'width': currentWidest}); }
 		$(this).children().css({'min-width': currentWidest}); 
