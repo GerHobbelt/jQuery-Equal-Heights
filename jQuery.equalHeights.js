@@ -8,9 +8,9 @@
  * Description: Compares the heights or widths of the top-level children of a provided element 
  		and sets their min-height to the tallest height (or width to widest width). Sets in em units 
  		by default if pxToEm() method is available.
- * Dependencies: jQuery library, pxToEm method	(article: http://www.filamentgroup.com/lab/retaining_scalable_interfaces_with_pixel_to_em_conversion/)							  
+ * Dependencies: jQuery library, pxToEm method	(article: http://www.filamentgroup.com/lab/retaining_scalable_interfaces_with_pixel_to_em_conversion/)
  * Usage Example: $(element).equalHeights();
-   						      Optional: to set min-height in px, pass a true argument: $(element).equalHeights(true);
+								Optional: to set min-height in px, pass a true argument: $(element).equalHeights(true);
  * Version: 2.0, 07.24.2008
  * Changelog:
  *  08.02.2007 initial Version 1.0
