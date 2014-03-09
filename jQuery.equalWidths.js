@@ -21,52 +21,52 @@
  *  	07.24.2008 v 2.0 - added support for widths
 --------------------------------------------------------------------*/
 
-$.fn.equalHeights = function(px) {
-	var current_tallest = 0;
+$.fn.equalWidths = function(px) {
+	var current_widest = 0;
 	var self = $(this);
 
-	//clear heights
+	//clear widths
 	self.each(function() {
 		var element = $(this);
-		element.css({'min-height': ''});
+		element.css({'min-width': ''});
 	});
 
-	//measure heights
+	//measure widths
 	self.each(function() {
 		var element = $(this);
-		var elh = element.outerHeight(false);
-		if (elh > current_tallest)
-			current_tallest = elh;
+		var elh = element.outerWidth(false);
+		if (elh > current_widest)
+			current_widest = elh;
 		if (!px && Number.prototype.pxToEm)
-			current_tallest = current_tallest.pxToEm(); //use ems unless px is specified
+			current_widest = current_widest.pxToEm(); //use ems unless px is specified
 	});
 
-	//set heights
+	//set widths
 	self.each(function() {
 		var element = $(this);
-		var padding_and_border = element.outerHeight() - element.height();
-		element.css({'min-height': current_tallest - padding_and_border});
+		var padding_and_border = element.outerWidth() - element.width();
+		element.css({'min-width': current_widest - padding_and_border});
 	});
 
 	return this;
 };
 
-$.fn.equalHeightsByHClass = function(px) {
-	// Group elements together by the value of their `data-equalheight-class` attribute,
-	// then perform equalHeights on them. Any elements without the
+$.fn.equalWidthsByWClass = function(px) {
+	// Group elements together by the value of their `data-equalwidth-class` attribute,
+	// then perform equalWidths on them. Any elements without the
 	// attribute are grouped together
-	var height_classes = {};
+	var width_classes = {};
 	$(this).each(function() {
 		var element = $(this);
-		var class_name = element.attr('data-equalheight-class');
+		var class_name = element.attr('data-equalwidth-class');
 		// Instantiate, or push to, an array of elements
-		if (height_classes[class_name] == undefined)
-			height_classes[class_name] = [element];
+		if (width_classes[class_name] == undefined)
+			width_classes[class_name] = [element];
 		else
-			height_classes[class_name].push(element);
+			width_classes[class_name].push(element);
 	});
-	for (var class_name in height_classes)
-		$(height_classes[class_name]).equalHeights(px);
+	for (var class_name in width_classes)
+		$(width_classes[class_name]).equalWidths(px);
 	return this;
 };
 
