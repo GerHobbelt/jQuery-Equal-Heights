@@ -52,13 +52,13 @@ $.fn.equalHeights = function(px) {
 };
 
 $.fn.equalHeightsByHClass = function(px) {
-	// Group elements together by the value of their `h-class` attribute,
+	// Group elements together by the value of their `data-equalheight-class` attribute,
 	// then perform equalHeights on them. Any elements without the
 	// attribute are grouped together
 	var height_classes = {};
 	$(this).each(function() {
 		var element = $(this);
-		var class_name = element.attr('h-class');
+		var class_name = element.attr('data-equalheight-class');
 		// Instantiate, or push to, an array of elements
 		if (height_classes[class_name] == undefined)
 			height_classes[class_name] = [element];
@@ -98,6 +98,25 @@ $.fn.equalWidths = function(px) {
 		element.css({'min-width': current_widest - padding_and_border});
 	});
 
+	return this;
+};
+
+$.fn.equalWidthsByWClass = function(px) {
+	// Group elements together by the value of their `data-equalwidth-class` attribute,
+	// then perform equalWidths on them. Any elements without the
+	// attribute are grouped together
+	var width_classes = {};
+	$(this).each(function() {
+		var element = $(this);
+		var class_name = element.attr('data-equalwidth-class');
+		// Instantiate, or push to, an array of elements
+		if (width_classes[class_name] == undefined)
+			width_classes[class_name] = [element];
+		else
+			width_classes[class_name].push(element);
+	});
+	for (var class_name in width_classes)
+		$(width_classes[class_name]).equalHeights(px);
 	return this;
 };
 
