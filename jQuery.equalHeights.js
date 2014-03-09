@@ -28,8 +28,6 @@ $.fn.equalHeights = function(px) {
 	//clear heights
 	self.each(function() {
 		var element = $(this);
-		if ($.browser.msie && $.browser.version == 6.0)
-			element.css({'height': ''});
 		element.css({'min-height': ''});
 	});
 
@@ -41,15 +39,12 @@ $.fn.equalHeights = function(px) {
 			current_tallest = elh;
 		if (!px && Number.prototype.pxToEm)
 			current_tallest = current_tallest.pxToEm(); //use ems unless px is specified
-		// for ie6, set height since min-height isn't supported
 	});
 
 	//set heights
-	self.each(function(){
+	self.each(function() {
 		var element = $(this);
 		var padding_and_border = element.outerHeight() - element.height();
-		if ($.browser.msie && $.browser.version == 6.0)
-			element.css({'height': current_tallest - padding_and_border});
 		element.css({'min-height': current_tallest - padding_and_border});
 	});
 
@@ -83,8 +78,6 @@ $.fn.equalWidths = function(px) {
 				if($(this).outerWidth() > currentWidest) { currentWidest = $(this).outerWidth(); }
 		});
 		if (!px && Number.prototype.pxToEm) currentWidest = currentWidest.pxToEm(); //use ems unless px is specified
-		// for ie6, set width since min-width isn't supported
-		if (typeof(document.body.style.minHeight) === "undefined") { $(this).children().css({'width': currentWidest}); }
 		$(this).children().css({'min-width': currentWidest}); 
 	});
 	return this;
