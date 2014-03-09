@@ -9,8 +9,8 @@
  * Copyright (c) 2007 Filament Group
  * Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php)
  *
- * Description: Compares the heights or widths of the top-level children of a provided element 
- 		and sets their min-height to the tallest height (or width to widest width). Sets in em units 
+ * Description: Compares the heights or widths of the top-level children of a provided element
+ 		and sets their min-height to the tallest height (or width to widest width). Sets in em units
  		by default if pxToEm() method is available.
  * Dependencies: jQuery library, pxToEm method	(article: http://www.filamentgroup.com/lab/retaining_scalable_interfaces_with_pixel_to_em_conversion/)
  * Usage Example: $(element).equalHeights();
@@ -57,8 +57,8 @@ $.fn.equalHeightsByHClass = function(px) {
 	// attribute are grouped together
 	var height_classes = {};
 	$(this).each(function() {
-		var element = $(this),
-			class_name = element.attr('h-class');
+		var element = $(this);
+		var class_name = element.attr('h-class');
 		// Instantiate, or push to, an array of elements
 		if (height_classes[class_name] == undefined)
 			height_classes[class_name] = [element];
@@ -72,14 +72,32 @@ $.fn.equalHeightsByHClass = function(px) {
 
 // just in case you need it...
 $.fn.equalWidths = function(px) {
-	$(this).each(function() {
-		var currentWidest = 0;
-		$(this).children().each(function(i) {
-				if($(this).outerWidth() > currentWidest) { currentWidest = $(this).outerWidth(); }
-		});
-		if (!px && Number.prototype.pxToEm) currentWidest = currentWidest.pxToEm(); //use ems unless px is specified
-		$(this).children().css({'min-width': currentWidest}); 
+	var current_widest = 0;
+	var self = $(this);
+
+	//clear widths
+	self.each(function() {
+		var element = $(this);
+		element.css({'min-width': ''});
 	});
+
+	//measure widths
+	self.each(function() {
+		var element = $(this);
+		var elh = element.outerWidth(false);
+		if (elh > current_widest)
+			current_widest = elh;
+		if (!px && Number.prototype.pxToEm)
+			current_widest = current_widest.pxToEm(); //use ems unless px is specified
+	});
+
+	//set widths
+	self.each(function() {
+		var element = $(this);
+		var padding_and_border = element.outerWidth() - element.width();
+		element.css({'min-width': current_widest - padding_and_border});
+	});
+
 	return this;
 };
 
